@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -18,10 +19,11 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/api/todos", GetTodos).Methods("GET")
 
-	handler := cors.Default().Handler(router) // CORS設定を適用したハンドラを作成
+	handler := cors.Default().Handler(router)
 
-	http.Handle("/", handler)
-	http.ListenAndServe(":5000", nil)
+	// サーバー起動前にログ出力
+	fmt.Println("Starting server on :5000...")
+	http.ListenAndServe(":5000", handler)
 }
 
 func GetTodos(w http.ResponseWriter, r *http.Request) {

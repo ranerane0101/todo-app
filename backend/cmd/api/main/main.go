@@ -6,14 +6,9 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/ranerane0101/domain/model"
 	"github.com/rs/cors"
 )
-
-type Todo struct {
-	ID   int    `json:"ID"`
-	Text string `json:"Text"`
-	Done bool   `json:"Done"`
-}
 
 func main() {
 	router := mux.NewRouter()
@@ -27,7 +22,8 @@ func main() {
 }
 
 func GetTodos(w http.ResponseWriter, r *http.Request) {
-	todos := []Todo{
+	// 新しいモデルを使用する
+	todos := []model.Todo{
 		{ID: 1, Text: "buy groceries", Done: false},
 		{ID: 2, Text: "Read a book", Done: true},
 	}

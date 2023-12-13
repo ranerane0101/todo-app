@@ -20,7 +20,7 @@ func NewTodoInteractor(todoRepo repository.ITodoRepository) usecase.TodoUsecaseI
 
 // GetTodoList は指定したユーザーのToDoリストを取得します。
 func (ti *TodoInteractor) GetTodoList(userID string) ([]model.Todo, error) {
-	todos, err := ti.TodoRepository.GetAllTodos(userID)
+	todos, err := ti.TodoRepository.FindAllTodos(userID)
 	if err != nil {
 		return nil, err
 	}

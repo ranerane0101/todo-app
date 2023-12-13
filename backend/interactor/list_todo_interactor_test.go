@@ -7,7 +7,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/ranerane0101/domain/model"
-	"github.com/ranerane0101/repository/mock"
+	mock_repository "github.com/ranerane0101/mock"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -16,7 +16,7 @@ func TestGetTodoList(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockRepo := mock.NewMockITodoRepository(ctrl)
+	mockRepo := mock_repository.NewMockITodoRepository(ctrl)
 	mockInteractor := NewTodoInteractor(mockRepo)
 
 	userID := "123"
@@ -29,7 +29,7 @@ func TestGetTodoList(t *testing.T) {
 
 	// モックのリポジトリが呼び出されたときの振る舞いを設定
 	mockRepo.EXPECT().
-		GetAllTodos(userID).
+		FindAllTodos(userID).
 		Return(expectedList, nil)
 
 	// テスト対象のメソッドを呼び出す
@@ -48,7 +48,7 @@ func TestGetTodoList_Error(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockRepo := mock.NewMockITodoRepository(ctrl)
+	mockRepo := mock_repository.NewMockITodoRepository(ctrl)
 	mockInteractor := NewTodoInteractor(mockRepo)
 
 	userID := "不正なuserID"
@@ -56,7 +56,7 @@ func TestGetTodoList_Error(t *testing.T) {
 
 	// モックのリポジトリが呼び出されたときの振る舞いを設定
 	mockRepo.EXPECT().
-		GetAllTodos(userID).
+		FindAllTodos(userID).
 		Return(nil, expectedError)
 
 	// テスト対象のメソッドを呼び出す

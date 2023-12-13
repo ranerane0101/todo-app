@@ -1,34 +1,32 @@
 package main
 
 import (
-	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/ranerane0101/handlers"
 	"github.com/rs/cors"
 )
 
-type Todo struct {
-	ID   int    `json:"ID"`
-	Text string `json:"Text"`
-	Done bool   `json:"Done"`
-}
-
 func main() {
 	router := mux.NewRouter()
-	router.HandleFunc("/api/todos", GetTodos).Methods("GET")
+	router.HandleFunc("/api/todos", handlers.GetTodos).Methods("GET")
 
-	handler := cors.Default().Handler(router) // CORS設定を適用したハンドラを作成
+	handler := cors.Default().Handler(router)
 
-	http.Handle("/", handler)
-	http.ListenAndServe(":5000", nil)
-}
-
-func GetTodos(w http.ResponseWriter, r *http.Request) {
-	todos := []Todo{
-		{ID: 1, Text: "buy groceries", Done: false},
-		{ID: 2, Text: "Read a book", Done: true},
+	server := &http.Server{
+		Addr:    ":8000",
+		Handler: handler,
 	}
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(todos)
+
+	go func() {
+		if err := server.ListenAndServe(); err != nil {
+			fmt.Println("Failed to start server:", err)
+		}
+	}()
+
+	fmt.Println("Server is running on port 8000")
+	fmt.Println("Press CTRL+C to stop the server")
+	select {}
 }

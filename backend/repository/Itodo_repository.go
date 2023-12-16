@@ -1,9 +1,9 @@
 package repository
 
-import "github.com/ranerane0101/domain/model"
+import "github.com/ranerane0101/domain/entity"
 
 // TodoRepositoryInterface はTodoモデルのリポジトリのインタフェースです。
 type ITodoRepository interface {
-	FindAllTodos(ID string) ([]model.Todo, error)
-	FindTodoByID(todoID string) (*model.Todo, error)
+	FindAllTodos(ID string) ([]entity.Todo, error)
+	FindTodoByID(todoID string) (*entity.Todo, error)
 }

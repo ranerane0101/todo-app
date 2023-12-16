@@ -6,7 +6,8 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
-	"github.com/ranerane0101/domain/model"
+	"github.com/ranerane0101/domain/entity"
+	"github.com/ranerane0101/domain/valueobject"
 	mock_repository "github.com/ranerane0101/mock"
 
 	"github.com/stretchr/testify/assert"
@@ -22,9 +23,9 @@ func TestGetTodoList(t *testing.T) {
 	userID := "123"
 
 	// 期待されるリスト
-	expectedList := []model.Todo{
-		{ID: 1, Text: "Task 1", Done: false},
-		{ID: 2, Text: "Task 2", Done: true},
+	expectedList := []entity.Todo{
+		{ID: valueobject.NewTodoID("1"), Text: "Task 1", Done: false},
+		{ID: valueobject.NewTodoID("2"), Text: "Task 2", Done: true},
 	}
 
 	// モックのリポジトリが呼び出されたときの振る舞いを設定

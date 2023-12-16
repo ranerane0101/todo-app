@@ -8,7 +8,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	model "github.com/ranerane0101/domain/model"
+	entity "github.com/ranerane0101/domain/entity"
 )
 
 // MockITodoRepository is a mock of ITodoRepository interface.
@@ -35,10 +35,10 @@ func (m *MockITodoRepository) EXPECT() *MockITodoRepositoryMockRecorder {
 }
 
 // FindAllTodos mocks base method.
-func (m *MockITodoRepository) FindAllTodos(ID string) ([]model.Todo, error) {
+func (m *MockITodoRepository) FindAllTodos(ID string) ([]entity.Todo, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindAllTodos", ID)
-	ret0, _ := ret[0].([]model.Todo)
+	ret0, _ := ret[0].([]entity.Todo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -50,10 +50,10 @@ func (mr *MockITodoRepositoryMockRecorder) FindAllTodos(ID interface{}) *gomock.
 }
 
 // FindTodoByID mocks base method.
-func (m *MockITodoRepository) FindTodoByID(todoID string) (*model.Todo, error) {
+func (m *MockITodoRepository) FindTodoByID(todoID string) (*entity.Todo, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindTodoByID", todoID)
-	ret0, _ := ret[0].(*model.Todo)
+	ret0, _ := ret[0].(*entity.Todo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

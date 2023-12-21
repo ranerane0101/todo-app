@@ -13,58 +13,56 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetTodoList(t *testing.T) {
+func TestTodoInteractor(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockRepo := mock_repository.NewMockITodoRepository(ctrl)
-	mockInteractor := NewTodoInteractor(mockRepo)
+	t.Run("正常系テストコード", func(t *testing.T) {
+		mockRepo := mock_repository.NewMockITodoRepository(ctrl)
+		mockInteractor := NewTodoInteractor(mockRepo)
 
-	userID := "123"
+		ID := valueobject.NewTodoID("123")
+		// 期待されるリスト
+		expectedList := []entity.Todo{
+			{ID: valueobject.NewTodoID("1"), Text: "Task 1", Done: false},
+			{ID: valueobject.NewTodoID("2"), Text: "Task 2", Done: true},
+		}
 
-	// 期待されるリスト
-	expectedList := []entity.Todo{
-		{ID: valueobject.NewTodoID("1"), Text: "Task 1", Done: false},
-		{ID: valueobject.NewTodoID("2"), Text: "Task 2", Done: true},
-	}
+		// モックのリポジトリが呼び出されたときの振る舞いを設定
+		mockRepo.EXPECT().
+			FindAllTodos(ID).
+			Return(expectedList, nil)
 
-	// モックのリポジトリが呼び出されたときの振る舞いを設定
-	mockRepo.EXPECT().
-		FindAllTodos(userID).
-		Return(expectedList, nil)
+		// テスト対象のメソッドを呼び出す
+		todos, err := mockInteractor.ListTodos(ID)
 
-	// テスト対象のメソッドを呼び出す
-	todos, err := mockInteractor.GetTodoList(userID)
+		// 結果を検証する
+		assert.NoError(t, err)
+		assert.NotNil(t, todos)
+		assert.Equal(t, expectedList, todos)
 
-	// 結果を検証する
-	assert.NoError(t, err)
-	assert.NotNil(t, todos)
-	assert.Equal(t, expectedList, todos)
+		fmt.Println("expectedList:", expectedList)
+		fmt.Println("todos:", todos)
+	})
 
-	fmt.Println("expectedList:", expectedList)
-	fmt.Println("todos:", todos)
-}
+	t.Run("異常系テストコード", func(t *testing.T) {
+		mockRepo := mock_repository.NewMockITodoRepository(ctrl)
+		mockInteractor := NewTodoInteractor(mockRepo)
 
-func TestGetTodoList_Error(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
+		invalidTodoID := valueobject.NewTodoID("123")
+		expectedError := errors.New("error while fetching todos")
 
-	mockRepo := mock_repository.NewMockITodoRepository(ctrl)
-	mockInteractor := NewTodoInteractor(mockRepo)
+		// モックのリポジトリが呼び出されたときの振る舞いを設定
+		mockRepo.EXPECT().
+			FindAllTodos(invalidTodoID).
+			Return(nil, expectedError)
 
-	userID := "不正なuserID"
-	expectedError := errors.New("error while fetching todos")
+		// テスト対象のメソッドを呼び出す
+		todos, err := mockInteractor.ListTodos(invalidTodoID)
 
-	// モックのリポジトリが呼び出されたときの振る舞いを設定
-	mockRepo.EXPECT().
-		FindAllTodos(userID).
-		Return(nil, expectedError)
-
-	// テスト対象のメソッドを呼び出す
-	todos, err := mockInteractor.GetTodoList(userID)
-
-	// 結果を検証する
-	assert.Error(t, err)
-	assert.Nil(t, todos)
-	assert.Equal(t, expectedError, err)
+		// 結果を検証する
+		assert.Error(t, err)
+		assert.Nil(t, todos)
+		assert.Equal(t, expectedError, err)
+	})
 }

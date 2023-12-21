@@ -10,8 +10,10 @@ import (
 
 func GetTodos(w http.ResponseWriter, r *http.Request) {
 	todos := []entity.Todo{
-		{ID: valueobject.NewTodoID("1"), Text: "buy groceries", Done: false},
-		{ID: valueobject.NewTodoID("2"), Text: "Read a book", Done: true},
+		{ID: valueobject.NewTodoID("1"), Text: "買い物をする", Done: false},
+		{ID: valueobject.NewTodoID("2"), Text: "本を読む", Done: true},
+		{ID: valueobject.NewTodoID("3"), Text: "おにぎりを食べる", Done: true},
+		{ID: valueobject.NewTodoID("4"), Text: "転職活動をする", Done: false},
 	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(todos)

@@ -9,6 +9,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	entity "github.com/ranerane0101/domain/entity"
+	valueobject "github.com/ranerane0101/domain/valueobject"
 )
 
 // MockITodoRepository is a mock of ITodoRepository interface.
@@ -35,7 +36,7 @@ func (m *MockITodoRepository) EXPECT() *MockITodoRepositoryMockRecorder {
 }
 
 // FindAllTodos mocks base method.
-func (m *MockITodoRepository) FindAllTodos(ID string) ([]entity.Todo, error) {
+func (m *MockITodoRepository) FindAllTodos(ID valueobject.TodoID) ([]entity.Todo, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindAllTodos", ID)
 	ret0, _ := ret[0].([]entity.Todo)
@@ -50,16 +51,16 @@ func (mr *MockITodoRepositoryMockRecorder) FindAllTodos(ID interface{}) *gomock.
 }
 
 // FindTodoByID mocks base method.
-func (m *MockITodoRepository) FindTodoByID(todoID string) (*entity.Todo, error) {
+func (m *MockITodoRepository) FindTodoByID(ID valueobject.TodoID) (*entity.Todo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindTodoByID", todoID)
+	ret := m.ctrl.Call(m, "FindTodoByID", ID)
 	ret0, _ := ret[0].(*entity.Todo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindTodoByID indicates an expected call of FindTodoByID.
-func (mr *MockITodoRepositoryMockRecorder) FindTodoByID(todoID interface{}) *gomock.Call {
+func (mr *MockITodoRepositoryMockRecorder) FindTodoByID(ID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindTodoByID", reflect.TypeOf((*MockITodoRepository)(nil).FindTodoByID), todoID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindTodoByID", reflect.TypeOf((*MockITodoRepository)(nil).FindTodoByID), ID)
 }

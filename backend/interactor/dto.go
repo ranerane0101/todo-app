@@ -13,9 +13,10 @@ type TodoDTO struct {
 
 // EntityからDTOへの変換用の関数
 func ConvertToTodoDTO(entity entity.Todo) TodoDTO {
+	//entityの値をDTOに設定
 	return TodoDTO{
 		ID:   entity.ID,
 		Text: entity.Text,
-		Done: entity.Done,
+		Done: entity.Done, //達成済みか否か
 	}
 }

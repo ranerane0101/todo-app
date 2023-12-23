@@ -1,8 +1,8 @@
 package interactor
 
 import (
-	"github.com/ranerane0101/domain/entity"
 	"github.com/ranerane0101/domain/valueobject"
+	"github.com/ranerane0101/dto"
 	"github.com/ranerane0101/repository"
 	"github.com/ranerane0101/usecase"
 )
@@ -20,11 +20,17 @@ func NewTodoInteractor(todoRepo repository.ITodoRepository) usecase.TodoUsecaseI
 }
 
 // GetTodoList は指定したユーザーのToDoリストを取得します。
-func (ti *TodoInteractor) ListTodos(ID valueobject.TodoID) ([]entity.Todo, error) {
+func (ti *TodoInteractor) ListTodos(ID valueobject.TodoID) ([]dto.TodoDTO, error) {
 	todos, err := ti.TodoRepository.FindAllTodos(ID)
 	if err != nil {
 		return nil, err
 	}
 
-	return todos, nil
+	var todoDTOs []dto.TodoDTO
+	for _, todo := range todos {
+		todoDTO := ConvertToTodoDTO(todo)
+		todoDTOs = append(todoDTOs, todoDTO)
+	}
+
+	return todoDTOs, nil
 }

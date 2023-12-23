@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/ranerane0101/domain/entity"
 	"github.com/ranerane0101/domain/valueobject"
+	"github.com/ranerane0101/dto"
 )
 
 func GetTodos(w http.ResponseWriter, r *http.Request) {
-	todos := []entity.Todo{
+	todos := []dto.TodoDTO{
 		{ID: valueobject.NewTodoID("1"), Text: "買い物をする", Done: false},
 		{ID: valueobject.NewTodoID("2"), Text: "本を読む", Done: true},
 		{ID: valueobject.NewTodoID("3"), Text: "おにぎりを食べる", Done: true},

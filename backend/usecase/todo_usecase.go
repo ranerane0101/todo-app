@@ -1,11 +1,11 @@
 package usecase
 
 import (
-	"github.com/ranerane0101/domain/entity"
 	"github.com/ranerane0101/domain/valueobject"
+	"github.com/ranerane0101/dto"
 )
 
 // TodoUsecaseInterface はToDoリストのユースケースのインタフェースです。
 type TodoUsecaseInterface interface {
-	ListTodos(ID valueobject.TodoID) ([]entity.Todo, error)
+	ListTodos(ID valueobject.TodoID) ([]dto.TodoDTO, error)
 }

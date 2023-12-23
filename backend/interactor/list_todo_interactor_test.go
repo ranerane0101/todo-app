@@ -7,8 +7,8 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/ranerane0101/domain/entity"
+	mock_repository "github.com/ranerane0101/domain/mock/repository"
 	"github.com/ranerane0101/domain/valueobject"
-	mock_repository "github.com/ranerane0101/mock"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -50,8 +50,6 @@ func TestTodoInteractor(t *testing.T) {
 		assert.NotNil(t, todos)
 		assert.Equal(t, expectedList, todos)
 
-		fmt.Println("expectedList:", expectedList)
-		fmt.Println("todos:", todos)
 	})
 
 	t.Run("異常系テストコード", func(t *testing.T) {

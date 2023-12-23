@@ -1,8 +1,6 @@
 package interactor
 
 import (
-	"fmt"
-
 	"github.com/ranerane0101/domain/entity"
 	"github.com/ranerane0101/domain/valueobject"
 	"github.com/ranerane0101/repository"
@@ -27,6 +25,6 @@ func (ti *TodoInteractor) ListTodos(ID valueobject.TodoID) ([]entity.Todo, error
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("----実際のソース", todos)
+
 	return todos, nil
 }

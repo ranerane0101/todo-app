@@ -22,22 +22,20 @@ func TestTodoInteractor(t *testing.T) {
 		mockInteractor := NewTodoInteractor(mockRepo)
 
 		ID := valueobject.NewTodoID("1")
-		//10の長さのスライスを生成
+		// 10の長さのスライスを生成
 		expectedList := make([]entity.Todo, 10)
 		for i := range expectedList {
 			id := valueobject.NewTodoID(fmt.Sprintf("%d", i+1))
-			//整数を文字列に変換
 			text := fmt.Sprintf("Task %d", i+1)
-			done := i == 1 // 2番目のタスクのDoneをtrueに設定する例
+			done := i == 1
 
 			expectedList[i] = entity.Todo{
-				ID:   id,
-				Text: text,
-				Done: done,
+				TodoID: id,
+				Text:   text,
+				Done:   done,
 			}
 		}
 
-		// モックのリポジトリが呼び出されたときの振る舞いを設定
 		mockRepo.EXPECT().
 			FindAllTodos(ID).
 			Return(expectedList, nil)
@@ -48,10 +46,14 @@ func TestTodoInteractor(t *testing.T) {
 		// 結果を検証する
 		assert.NoError(t, err)
 		assert.NotNil(t, todos)
-		assert.Equal(t, expectedList, todos)
+		assert.Len(t, todos, len(expectedList))
 
+		// entity.Todoからdto.TodoDTOに変換して比較する
+		for i, todo := range todos {
+			expectedDTO := ConvertToTodoDTO(expectedList[i])
+			assert.Equal(t, expectedDTO, todo)
+		}
 	})
-
 	t.Run("異常系テストコード", func(t *testing.T) {
 		mockRepo := mock_repository.NewMockITodoRepository(ctrl)
 		mockInteractor := NewTodoInteractor(mockRepo)

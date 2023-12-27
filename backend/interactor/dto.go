@@ -9,8 +9,8 @@ import (
 func ConvertToTodoDTO(entity entity.Todo) dto.TodoDTO {
 	//entityの値をDTOに設定
 	return dto.TodoDTO{
-		ID:   entity.ID,
-		Text: entity.Text,
-		Done: entity.Done, //達成済みか否か
+		TodoID: entity.TodoID,
+		Text:   entity.Text,
+		Done:   entity.Done, //達成済みか否か
 	}
 }

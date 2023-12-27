@@ -16,7 +16,7 @@ func main() {
 	handler := cors.Default().Handler(router)
 
 	server := &http.Server{
-		Addr:    ":5000",
+		Addr:    ":52048",
 		Handler: handler,
 	}
 

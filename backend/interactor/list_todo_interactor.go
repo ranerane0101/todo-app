@@ -20,8 +20,8 @@ func NewTodoInteractor(todoRepo repository.ITodoRepository) usecase.TodoUsecaseI
 }
 
 // GetTodoList は指定したユーザーのToDoリストを取得します。
-func (ti *TodoInteractor) ListTodos(ID valueobject.TodoID) ([]dto.TodoDTO, error) {
-	todos, err := ti.TodoRepository.FindAllTodos(ID)
+func (ti *TodoInteractor) ListTodos(TodoID valueobject.TodoID) ([]dto.TodoDTO, error) {
+	todos, err := ti.TodoRepository.FindAllTodos(TodoID)
 	if err != nil {
 		return nil, err
 	}

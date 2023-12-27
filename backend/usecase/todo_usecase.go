@@ -7,5 +7,5 @@ import (
 
 // TodoUsecaseInterface はToDoリストのユースケースのインタフェースです。
 type TodoUsecaseInterface interface {
-	ListTodos(ID valueobject.TodoID) ([]dto.TodoDTO, error)
+	ListTodos(TodoID valueobject.TodoID) ([]dto.TodoDTO, error)
 }

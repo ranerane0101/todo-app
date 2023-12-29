@@ -6,17 +6,26 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/ranerane0101/handlers"
+	"github.com/ranerane0101/usecase"
 	"github.com/rs/cors"
 )
 
 func main() {
 	router := mux.NewRouter()
-	router.HandleFunc("/api/todos", handlers.GetTodos).Methods("GET")
+
+	// 新しい関数を作成し、GetTodos 関数を呼び出す
+	getTodosHandler := func(w http.ResponseWriter, r *http.Request) {
+		// ここで usecase を準備して GetTodos を呼び出す
+		var todoUsecase usecase.TodoUsecaseInterface // 適切な方法でインスタンスを取得する
+		handlers.GetTodos(w, r, todoUsecase)
+	}
+
+	router.HandleFunc("/api/todos", getTodosHandler).Methods("GET")
 
 	handler := cors.Default().Handler(router)
 
 	server := &http.Server{
-		Addr:    ":52048",
+		Addr:    ":5000",
 		Handler: handler,
 	}
 
